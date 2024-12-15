@@ -1,10 +1,11 @@
 'use client';
-import { assets, blog_data } from '@/Assets/assets';
-import Footer from '@/Components/Footer';
+
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import { assets } from '@/Assets/assets';
+import Footer from '@/Components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 
 interface PageProps {
   params: {
@@ -20,25 +21,23 @@ interface BlogData {
   description: string;
 }
 
-const Page: React.FC<PageProps> = ({ params }) => {
+export default function Page({ params }: PageProps) {
   const [data, setData] = useState<BlogData | null>(null);
 
-  const fetchBlogData = async (): Promise<void> => {
+  const fetchBlogData = useCallback(async () => {
     try {
       const response = await axios.get('/api/blog', {
-        params: {
-          id: params.id,
-        },
+        params: { id: params.id },
       });
       setData(response.data);
     } catch (error) {
       console.error('Error fetching blog data:', error);
     }
-  };
+  }, [params.id]);
 
   useEffect(() => {
     fetchBlogData();
-  }, []);
+  }, [fetchBlogData]);
 
   return data ? (
     <>
@@ -59,9 +58,10 @@ const Page: React.FC<PageProps> = ({ params }) => {
       </div>
       <div className="mx-5 max-w-[800px] md:mx-auto mt-[-100px] mb-10">
         <Image className="border-4 border-white w-full rounded-lg" src={data.image} width={800} height={480} alt="" />
-
-        <div className="blog-content mt-6 text-base sm:text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: data.description }} />
-
+        <div
+          className="blog-content mt-6 text-base sm:text-lg leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        />
         <div className="my-12 sm:my-24">
           <p className="text-black font-semibold my-4 text-center">Share this article on social media</p>
           <div className="flex justify-center gap-4">
@@ -76,6 +76,5 @@ const Page: React.FC<PageProps> = ({ params }) => {
   ) : (
     <div className="flex items-center justify-center min-h-screen">Loading...</div>
   );
-};
+}
 
-export default Page;
