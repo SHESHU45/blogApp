@@ -6,7 +6,7 @@ import { assets } from '@/Assets/assets';
 import Footer from '@/Components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';  // Import useRouter for dynamic routing
+import { useParams } from 'next/navigation'; // Use useParams instead of useRouter
 
 // Define BlogData interface
 interface BlogData {
@@ -20,9 +20,8 @@ interface BlogData {
 export default function Page() {
   const [data, setData] = useState<BlogData | null>(null);
 
-  // Access the dynamic `id` from Next.js router
-  const { query } = useRouter();
-  const blogId = query.id as string;  // Extract the `id` from the URL query params
+  // Access the dynamic `id` from the params
+  const { id: blogId } = useParams(); // useParams retrieves the dynamic route param
 
   const fetchBlogData = useCallback(async () => {
     if (blogId) {
@@ -54,12 +53,24 @@ export default function Page() {
         </div>
         <div className="text-center my-12 sm:my-24">
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-semibold max-w-[700px] mx-auto">{data.title}</h1>
-          <Image className="mx-auto mt-6 border border-white rounded-full" src={data.authorImg} width={60} height={60} alt="" />
+          <Image
+            className="mx-auto mt-6 border border-white rounded-full"
+            src={data.authorImg}
+            width={60}
+            height={60}
+            alt=""
+          />
           <p className="mt-2 text-base sm:text-lg pb-2 max-w-[740px] mx-auto">{data.author}</p>
         </div>
       </div>
       <div className="mx-5 max-w-[800px] md:mx-auto mt-[-100px] mb-10">
-        <Image className="border-4 border-white w-full rounded-lg" src={data.image} width={800} height={480} alt="" />
+        <Image
+          className="border-4 border-white w-full rounded-lg"
+          src={data.image}
+          width={800}
+          height={480}
+          alt=""
+        />
         <div
           className="blog-content mt-6 text-base sm:text-lg leading-relaxed"
           dangerouslySetInnerHTML={{ __html: data.description }}
