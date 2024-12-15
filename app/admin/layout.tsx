@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <>
             <div className="flex flex-col lg:flex-row min-h-screen">
                 <ToastContainer theme="dark" />
+                {/* Pass className to Sidebar */}
                 <Sidebar className="w-full lg:w-1/4" />
                 <div className="flex flex-col flex-1 w-full">
                     <div className="flex items-center justify-between w-full py-3 px-4 sm:px-6 lg:px-12 border-b border-black bg-gray-50">

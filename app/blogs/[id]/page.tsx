@@ -6,13 +6,9 @@ import { assets } from '@/Assets/assets';
 import Footer from '@/Components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';  // Import useRouter for dynamic routing
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
+// Define BlogData interface
 interface BlogData {
   title: string;
   authorImg: string;
@@ -21,19 +17,25 @@ interface BlogData {
   description: string;
 }
 
-export default function Page({ params }: PageProps) {
+export default function Page() {
   const [data, setData] = useState<BlogData | null>(null);
 
+  // Access the dynamic `id` from Next.js router
+  const { query } = useRouter();
+  const blogId = query.id as string;  // Extract the `id` from the URL query params
+
   const fetchBlogData = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/blog', {
-        params: { id: params.id },
-      });
-      setData(response.data);
-    } catch (error) {
-      console.error('Error fetching blog data:', error);
+    if (blogId) {
+      try {
+        const response = await axios.get('/api/blog', {
+          params: { id: blogId },
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching blog data:', error);
+      }
     }
-  }, [params.id]);
+  }, [blogId]);
 
   useEffect(() => {
     fetchBlogData();
@@ -77,4 +79,3 @@ export default function Page({ params }: PageProps) {
     <div className="flex items-center justify-center min-h-screen">Loading...</div>
   );
 }
-

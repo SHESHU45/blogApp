@@ -3,9 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-const Sidebar: React.FC = () => {
+// Accept the className prop
+interface SidebarProps {
+    className?: string;  // className is optional
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     return (
-        <div className="flex flex-col bg-slate-100 h-screen">
+        <div className={`flex flex-col bg-slate-100 h-screen ${className}`}> {/* Add className to the root div */}
             {/* Logo Section */}
             <div className="px-4 py-3 border border-black flex justify-center sm:justify-start">
                 <Image src={assets.logo} width={120} alt="logo" />
