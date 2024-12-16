@@ -1,29 +1,32 @@
-import { assets } from '@/Assets/assets';
-import axios from 'axios';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+"use client";
+import { assets } from "@/Assets/assets";
+import axios from "axios";
+import Image from "next/image";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Header: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
 
   // Form submission handler
-  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const onSubmitHandler = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('email', email);
+      formData.append("email", email);
 
-      const response = await axios.post('/api/email', formData);
+      const response = await axios.post("/api/email", formData);
 
       if (response.data.success) {
         toast.success(response.data.msg);
-        setEmail('');
+        setEmail("");
       } else {
-        toast.error('Error');
+        toast.error("Error");
       }
     } catch (error) {
-      toast.error('Something went wrong. Please try again later.');
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
@@ -43,12 +46,19 @@ const Header: React.FC = () => {
         </button>
       </div>
 
-      {/* Header Content */}
+      {/* Header Conten t */}
       <div className="text-center my-8">
         <h1 className="text-3xl sm:text-5xl font-medium">Latest Blogs</h1>
         <div className="mt-10 max-w-[740px] m-auto text-xs sm:text-base">
-          <p>This is made for the people who love to read blogs. We provide the best blogs on the internet.</p>
-          <p><b>This is made by Sheshu to prove himself as a full stack developer.</b></p>
+          <p>
+            This is made for the people who love to read blogs. We provide the
+            best blogs on the internet.
+          </p>
+          <p>
+            <b>
+              This is made by Sheshu to prove himself as a full stack developer.
+            </b>
+          </p>
         </div>
 
         {/* Subscription Form */}

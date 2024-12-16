@@ -1,6 +1,7 @@
+'use client'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import BlogItem from './BlogItem';
-import axios from 'axios';
 
 interface Blog {
   _id: string;

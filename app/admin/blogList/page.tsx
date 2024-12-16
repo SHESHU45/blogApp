@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import BlogTableItem from '@/Components/AdminComponents/BlogTableItem';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import BlogTableItem from "@/Components/AdminComponents/BlogTableItem";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Blog {
   _id: string;
@@ -18,16 +18,16 @@ const Page: React.FC = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get('/api/blog');
+      const response = await axios.get("/api/blog");
       setBlogs(response.data.blogs);
     } catch (error) {
-      toast.error('Failed to fetch blogs.');
+      toast.error("Failed to fetch blogs.");
     }
   };
 
   const deleteBlog = async (mongoId: string) => {
     try {
-      const response = await axios.delete('/api/blog', {
+      const response = await axios.delete("/api/blog", {
         params: {
           id: mongoId,
         },
@@ -35,7 +35,7 @@ const Page: React.FC = () => {
       toast.success(response.data.msg);
       fetchBlogs();
     } catch (error) {
-      toast.error('Failed to delete the blog.');
+      toast.error("Failed to delete the blog.");
     }
   };
 
